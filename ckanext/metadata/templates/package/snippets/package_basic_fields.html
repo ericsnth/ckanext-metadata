@@ -16,9 +16,13 @@
     <label for="field-private" class="control-label">{{ _('Jenis Publikasi') }}</label>
     <div class="controls">
       <select id="field-private" name="private" class="form-control">
-        {% for option in [('False', _('Publik')), ('True', _('Privat / Internal'))] %}
-        <option value="{{ option[0] }}" {% if option[0] == data.private|trim %}selected="selected"{% endif %}>{{ option[1] }}</option>
-        {% endfor %}
+        {% if c.userobj.sysadmin %}
+            {% for option in [('False', _('Publik')), ('True', _('Internal / Menunggu Persetujuan Walidata'))] %}
+                <option value="{{ option[0] }}" {% if option[0] == data.private|trim %}selected="selected"{% endif %}>{{ option[1] }}</option>
+            {% endfor %}
+        {% else %}
+            <option value="False" selected="selected">Menunggu Persetujuan Walidata</option>
+        {% endif %}
       </select>
     </div>
     <small id="ericsnth-helper" class="form-text text-muted">Kategori yang menjelaskan apakah data ini bersifat <b>publik</b> atau <b>privat</b>; jika memilih kategori publik, maka data langsung tayang ke publik</small>
